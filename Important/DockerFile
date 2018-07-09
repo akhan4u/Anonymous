@@ -1,0 +1,55 @@
+# Set base image for the Subsequent Instructions(From can appear multiple times in the DockerFile for multiple images)
+FROM busybox:latest
+FROM ubuntu:trusty
+FROM ubuntu:xenial
+# Maintainer of the base image
+MAINTAINER 'Aman Khan <amankh@cybage.com>'
+# Environment Variable Declaration.
+ENV PATH /usr/local/nginx/bin:$PATH
+ENV PATH /usr/local/firefox:$PATH
+# WORKDIR set the working directory for any RUN,CMD,ENTRYPOINT,COPY,ADD instruction that follow in the docker file, can be used multiple times.
+WORKDIR $(pwd)
+# Run command can be used to pass command as in shell or as a executable or can be used as a one liner
+RUN /bin/bash -c 'source /home/akhan/script.sh; \
+echo $HOME'  # OR
+RUN apt-get update && apt-get install -y \
+openssh \
+curl \
+nginx \
+apache2 \
+python \
+vsftpd \
+docker-engine
+# CMD used to run the software associated with the Docker base image
+CMD ["executable", "parameter1", "parameter2"]    #syntax
+CMD ["python", "--version"]
+CMD ["ssh", "--version"]
+CMD ["git", "--version"]
+CMD ["firefox"]
+CMD echo "this is aman" | wc -l
+CMD cat /proc/net/dev | awk -F' ' '{print $1}'  # To get the details of the total network devices in the system
+CMD ["/usr/bin/wc", "--help"]
+# Expose the ports associated to the base image. This will map the base image port and map it any host machine port.
+EXPOSE 80
+EXPOSE 8140  #port for puppet master
+EXPOSE 8142  #port for puppet agent
+EXPOSE 25    #port for IMAP
+EXPOSE 21    #connection establishment in ftp
+EXPOSE 20    #data transfer in ftp
+#Copy the files from the host machine(local files) to docker container
+COPY requirements.txt /tmp/   # OR
+COPY . /tmp/
+#Doing the installation of SSH in container through use of RUN,Wget,curl or so
+RUN mkdir -p /tmp/ssh/install \
+&& cd /tmp/ssh/install \
+ curl -SL https://example.com/downloads/openssh.4.4 \
+ | tar -xvf . \
+ && make -C /tmp/ssh/install all
+# Volume mapping from the host machine to the Docker base machine
+VOLUME /home/akhan/data /var/www/html
+VOLUME /tmp/data /var/lib/mysql/
+# User instruction sets the user name or the UID to use when running the image or for any RUN,CMD and ENTRYPOINT instructions.
+USER daemon
+
+
+this is a samle edit

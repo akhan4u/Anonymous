@@ -1,0 +1,28 @@
+Detailed usage of Nmap, network scanning and monitoring tool.
+
+Discover ip's in a subnet (no root)
+# nmap -sP 192.168.0.0/24
+
+To discover open ports in a machine (no root)
+# nmap ip-addr-of-machine
+
+Identify the OS of the host(requires root)
+# nmap -O ip-addr-of-machine
+
+Identify hostnames(no root)
+# nmap -sL ip-addr-of-machine
+
+TCP syn and UDP scan(requires root)
+# nmap -sS -sU -PN ip-addr-of-machine
+
+TCP syn and UDP scan for all ports(requires root)
+# nmap -sS -sU -PN -p 1-65535 ip-addr-of-machine
+
+TCP connect scan (no root)
+# nmap -sT ip-addr-of-machine
+
+Aggresive scan of the hosts (no root)
+# nmap -T4 -A ip-addr-of-machine
+
+Verbosity
+# nmap -T4 -A -v ip-addr-of-machine
