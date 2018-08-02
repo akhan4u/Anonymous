@@ -1,7 +1,7 @@
 const {Builder, By, until} = require('selenium-webdriver');
 
 let driver = new Builder()
-    .forBrowser('chrome')
+    .forBrowser('firefox')
     .build();
 
 driver.get('http://www.google.com/ncr');
